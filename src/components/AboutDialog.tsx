@@ -43,7 +43,7 @@ export function AboutDialog() {
                 <span className="font-black tracking-tight text-[var(--strong)]">
                   justatuner
                 </span>{" "}
-                is a guitar tuner that runs locally in your browser. Lower
+                is a tuner that runs locally in your browser. Lower
                 notes make longer waves, and vice versa. Audio is processed on
                 your device and never leaves it.
               </p>

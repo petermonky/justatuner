@@ -28,9 +28,9 @@ export default function Image() {
             strokeWidth="6"
           />
         </svg>
-        <div style={{ fontSize: 88, fontWeight: 700, letterSpacing: -2 }}>Just a Tuner</div>
+        <div style={{ fontSize: 88, fontWeight: 900, letterSpacing: -2 }}>justatuner</div>
         <div style={{ fontSize: 34, color: "#62627a" }}>
-          Free online guitar tuner. Private, instant, in your browser.
+          Free online tuner. Private, instant, in your browser.
         </div>
       </div>
     ),

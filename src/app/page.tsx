@@ -43,7 +43,7 @@ export default function Home() {
     // Mobile: presets on top (horizontal scroll), circle centered, strings at
     // the bottom, all locked to the viewport. Desktop: three columns.
     <main className="grid h-dvh grid-rows-[auto_1fr_auto] gap-4 overflow-hidden p-4 pt-14 lg:grid-cols-[1fr_minmax(0,2.4fr)_1fr] lg:grid-rows-1 lg:items-center lg:gap-10 lg:p-10">
-      <h1 className="sr-only">Just a Tuner — free online guitar tuner</h1>
+      <h1 className="sr-only">justatuner — free online tuner</h1>
       <span
         aria-hidden="true"
         className="animate-fade-in-left fixed top-4 left-4 z-10 text-xl font-black tracking-tight text-[var(--strong)] lg:top-10 lg:left-10"

@@ -1,6 +1,6 @@
 # justatuner
 
-**justatuner** is a guitar tuner that runs locally in your browser. The central
+**justatuner** is a tuner that runs locally in your browser. The central
 element is a circle containing a pitch-derived waveform: lower notes produce
 longer waves, volume drives amplitude, flat notes drift left, sharp notes drift
 right. A faint reference wave shows the target note's wavelength, and when the

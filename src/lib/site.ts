@@ -1,6 +1,5 @@
-// Update SITE_URL if the app moves to a custom domain.
-export const SITE_URL = "https://justatuner.vercel.app"
-export const SITE_NAME = "Just a Tuner"
-export const SITE_TITLE = "Just a Tuner — Free Online Guitar Tuner"
+export const SITE_URL = "https://justatuner.com"
+export const SITE_NAME = "justatuner"
+export const SITE_TITLE = "justatuner — Free Online Tuner"
 export const SITE_DESCRIPTION =
-  "Free online guitar tuner with microphone pitch detection. Tune standard, drop D, DADGAD, open tunings and more, right in your browser. No install, no ads, and audio never leaves your device."
+  "justatuner is a free online tuner that runs locally in your browser. Real-time microphone pitch detection with standard, drop, and open tuning presets. No install, no ads, and audio never leaves your device."
