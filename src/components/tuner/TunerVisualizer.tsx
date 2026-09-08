@@ -197,5 +197,11 @@ export function TunerVisualizer({ live, running }: Props) {
     }
   }, [live])
 
-  return <canvas ref={canvasRef} className="h-full w-full" aria-hidden="true" />
+  return (
+    <canvas
+      ref={canvasRef}
+      className="animate-ring-in h-full w-full [animation-delay:500ms]"
+      aria-hidden="true"
+    />
+  )
 }

@@ -15,7 +15,7 @@ const ERROR_MESSAGES: Record<MicErrorKind, string> = {
 
 export function MicrophonePermission({ micError, onStart }: Props) {
   return (
-    <div className="animate-fade-rise flex flex-col items-center gap-4 text-center">
+    <div className="animate-fade-rise flex flex-col items-center gap-4 text-center [animation-delay:500ms]">
       <button
         type="button"
         onClick={onStart}

@@ -29,23 +29,26 @@ export function Tuner({ tuner }: Props) {
     <div className="flex flex-col items-center gap-6 lg:grid lg:h-full lg:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:justify-items-center lg:gap-0">
       <div className="relative aspect-square w-[min(70vw,42dvh,340px)] lg:row-start-2 lg:w-[clamp(280px,34vw,520px)]">
         {/* Equidistant rings nested around the circle, fading as they progress
-            outward past the page edges (clipped by the page's overflow-hidden). */}
-        {Array.from({ length: 40 }, (_, i) => (
+            outward (clipped by the page's overflow-hidden). Kept to 12: the
+            exponential fade makes further rings invisible, and each ring is a
+            large compositor layer that would slow every animation on the page. */}
+        {Array.from({ length: 12 }, (_, i) => (
           <div
             key={i}
             aria-hidden="true"
-            className="pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--faint)]"
+            className="animate-ring-in pointer-events-none absolute top-1/2 left-1/2 -z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[var(--faint)]"
             style={{
               width: `calc(100% + ${i + 1} * var(--ring-step))`,
               height: `calc(100% + ${i + 1} * var(--ring-step))`,
               opacity: 0.5 * Math.pow(0.75, i),
+              animationDelay: `${500 + i * 30}ms`,
             }}
           />
         ))}
         <TunerVisualizer live={tuner.live} running={running} />
       </div>
 
-      <div className="pt-4 lg:row-start-3 lg:self-start lg:pt-12">
+      <div className="pt-2 lg:row-start-3 lg:self-start lg:pt-8">
         {running ? (
           <DetectedNote
             note={tuner.detectedNote}

@@ -55,8 +55,17 @@ a {
 
 @theme {
   --animate-fade-rise: fade-rise 250ms ease both;
-  --animate-fade-in-left: fade-in-left 350ms ease both;
-  --animate-fade-in-right: fade-in-right 350ms ease both;
+  --animate-fade-in-left: fade-in-left 350ms ease 500ms both;
+  --animate-fade-in-right: fade-in-right 350ms ease 500ms both;
+  --animate-ring-in: ring-in 400ms ease backwards;
+}
+
+/* Rings stagger in from the center via per-ring animation-delay; the implicit
+   end state is each ring's own inline opacity. */
+@keyframes ring-in {
+  from {
+    opacity: 0;
+  }
 }
 
 @keyframes fade-rise {
@@ -121,7 +130,8 @@ dialog[open]::backdrop {
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-rise,
   .animate-fade-in-left,
-  .animate-fade-in-right {
+  .animate-fade-in-right,
+  .animate-ring-in {
     animation: none;
   }
   dialog,
