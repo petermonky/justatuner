@@ -26,12 +26,22 @@ export function AboutDialog() {
       >
         <div className="flex flex-col gap-8 p-6 text-base leading-normal">
           <p>
-            A guitar tuner that runs in your browser. It listens through the
-            microphone, detects pitch, and draws it as a waveform: lower notes
-            make longer waves, flat drifts left, sharp drifts right, and an
-            in-tune note settles and locks.
+            A guitar tuner that runs locally in your browser. Lower notes make
+            longer waves, and vice versa. Audio is processed on your device and
+            never leaves it.
           </p>
-          <p>Audio is processed on your device and never leaves it.</p>
+          <p>
+            Suggestions or bugs?{" "}
+            <a
+              href="https://github.com/petermonky/justatuner/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-4 transition-colors duration-200 ease-[ease] hover:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
+            >
+              Open an issue
+            </a>
+            .
+          </p>
         </div>
         <button
           type="button"
