@@ -1,33 +1,62 @@
 @import "tailwindcss";
 
+/* The entire app is limited to five shades:
+   white (background), hairline, faint, foreground, black. */
 :root {
-  --background: #fafafa;
-  --foreground: #171717;
-  --accent: #2f8f6f;
+  --background: #ffffff;
+  --hairline: #e4e4ea;
+  --faint: #9d9daf;
+  /* Muted purple-gray, darkened from the source #8e8ea0 to clear WCAG AA
+     on white; black is the emphasis color (selected items, in-tune lock). */
+  --foreground: #62627a;
+  --strong: #000000;
+  --accent: #000000;
+
+  /* Gap between the nested backdrop rings; wider on desktop. */
+  --ring-step: 96px;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --ring-step: 160px;
+  }
+}
+
+/* Dark theme mirrors the same five roles. Set by the theme toggle (and an
+   inline script on load) via data-theme on <html>. */
+:root[data-theme="dark"] {
+  --background: #0e0e12;
+  --hairline: #2c2c35;
+  --faint: #5f5f70;
+  --foreground: #a6a6b8;
+  --strong: #ffffff;
+  --accent: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --accent: #4fbf97;
-  }
+  --font-sans: var(--font-inter), Inter, system-ui, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
+}
+
+button:not(:disabled),
+a {
+  cursor: pointer;
 }
 
 @theme {
-  --animate-fade-rise: fade-rise 300ms cubic-bezier(0.2, 0, 0, 1) both;
+  --animate-fade-rise: fade-rise 250ms ease both;
+  --animate-fade-in-left: fade-in-left 350ms ease both;
+  --animate-fade-in-right: fade-in-right 350ms ease both;
 }
 
 @keyframes fade-rise {
@@ -37,12 +66,35 @@ body {
   }
 }
 
-/* Gentle entry for the about dialog; @starting-style animates from the
-   pre-open state in browsers that support it. */
-dialog[open] {
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+}
+
+/* About dialog enter/exit. Discrete display/overlay transitions keep the
+   closing dialog visible while it fades out; @starting-style animates the
+   entry. Browsers without support simply open/close instantly. */
+dialog {
+  opacity: 0;
+  transform: translateY(6px) scale(0.98);
   transition:
-    opacity 180ms cubic-bezier(0.2, 0, 0, 1),
-    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+    opacity 150ms ease,
+    transform 150ms ease,
+    display 150ms allow-discrete,
+    overlay 150ms allow-discrete;
+}
+dialog[open] {
+  opacity: 1;
+  transform: none;
 }
 @starting-style {
   dialog[open] {
@@ -50,8 +102,15 @@ dialog[open] {
     transform: translateY(6px) scale(0.98);
   }
 }
+dialog::backdrop {
+  background-color: transparent;
+  transition:
+    background-color 150ms ease,
+    display 150ms allow-discrete,
+    overlay 150ms allow-discrete;
+}
 dialog[open]::backdrop {
-  transition: background-color 180ms ease;
+  background-color: rgb(0 0 0 / 0.4);
 }
 @starting-style {
   dialog[open]::backdrop {
@@ -60,11 +119,13 @@ dialog[open]::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-fade-rise {
+  .animate-fade-rise,
+  .animate-fade-in-left,
+  .animate-fade-in-right {
     animation: none;
   }
-  dialog[open],
-  dialog[open]::backdrop {
+  dialog,
+  dialog::backdrop {
     transition: none;
   }
 }

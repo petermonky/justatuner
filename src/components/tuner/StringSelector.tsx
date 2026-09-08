@@ -22,12 +22,9 @@ export function StringSelector({
   return (
     <nav
       aria-label="Strings"
-      className={`transition-opacity duration-300 ${disabled ? "opacity-40" : ""}`}
+      className={`animate-fade-in-right transition-opacity duration-200 ease-[ease] ${disabled ? "opacity-40" : ""}`}
     >
-      <h2 className="mb-3 text-right text-[11px] uppercase tracking-[0.2em] opacity-40 max-lg:hidden">
-        Strings
-      </h2>
-      <ul className="flex justify-center gap-1 lg:flex-col lg:items-end">
+      <ul className="flex gap-1 max-lg:-mx-4 max-lg:overflow-x-auto max-lg:px-4 max-lg:[justify-content:safe_center] max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:flex-col lg:items-end">
         {tuning.strings.map((string, index) => {
           const isManual = manualTarget === string
           const isActive = activeTarget === string
@@ -38,22 +35,24 @@ export function StringSelector({
                 onClick={() => onSelect(isManual ? null : string)}
                 aria-pressed={isManual}
                 aria-label={`${string.note}${string.octave} string${isManual ? ", selected" : ""}`}
-                className={`flex items-center gap-2 rounded px-2 py-1 text-sm tabular-nums transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
-                  isActive || isManual ? "opacity-100" : "opacity-40"
+                className={`flex items-center gap-2 px-2 py-1 text-base tabular-nums transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] lg:-mx-2 ${
+                  isActive || isManual
+                    ? "font-semibold text-[var(--strong)]"
+                    : "text-[var(--foreground)]"
                 }`}
               >
-                <span className="w-8 text-left text-xs opacity-50 max-lg:hidden">
+                <span className="w-8 text-left text-xs text-[var(--faint)] max-lg:hidden">
                   {isActive && cents !== null
                     ? `${cents > 0 ? "+" : "−"}${String(Math.abs(Math.round(cents))).padStart(2, "0")}`
                     : ""}
                 </span>
                 <span>
                   {string.note}
-                  <span className="opacity-50">{string.octave}</span>
+                  <span className="text-[var(--faint)]">{string.octave}</span>
                 </span>
                 <span
                   aria-hidden="true"
-                  className={`h-1 w-1 rounded-full bg-[var(--accent)] transition-[opacity,transform] duration-200 motion-reduce:transform-none ${
+                  className={`h-1 w-1 bg-[var(--accent)] transition-[opacity,transform] duration-200 ease-[ease] motion-reduce:transform-none ${
                     isManual ? "scale-100 opacity-100" : "scale-50 opacity-0"
                   }`}
                 />
@@ -66,8 +65,8 @@ export function StringSelector({
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className={`rounded px-2 py-1 text-xs uppercase tracking-[0.15em] transition-opacity duration-200 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
-            manualTarget ? "opacity-50 hover:opacity-90" : "pointer-events-none opacity-0"
+          className={`px-2 py-1 text-xs uppercase tracking-[0.15em] transition-[color,opacity] duration-200 ease-[ease] hover:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] lg:-mx-2 ${
+            manualTarget ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
           Auto

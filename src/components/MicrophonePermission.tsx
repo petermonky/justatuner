@@ -19,16 +19,18 @@ export function MicrophonePermission({ micError, onStart }: Props) {
       <button
         type="button"
         onClick={onStart}
-        className="rounded px-3 py-1.5 text-sm opacity-60 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[var(--foreground)]"
+        className="bg-[var(--strong)] px-4 py-2 text-base text-[var(--background)] transition-[opacity,transform] duration-200 ease-[ease] hover:opacity-80 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
       >
         Enable microphone
       </button>
       {micError && (
-        <p role="alert" className="animate-fade-rise max-w-60 text-xs leading-relaxed opacity-50">
+        <p
+          role="alert"
+          className="animate-fade-rise max-w-64 text-xs leading-relaxed text-[var(--strong)]"
+        >
           {ERROR_MESSAGES[micError]}
         </p>
       )}
-      <p className="text-[11px] opacity-30">Audio stays on your device.</p>
     </div>
   )
 }

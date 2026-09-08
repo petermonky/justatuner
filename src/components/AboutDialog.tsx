@@ -11,7 +11,7 @@ export function AboutDialog() {
         type="button"
         aria-label="About this app"
         onClick={() => dialogRef.current?.showModal()}
-        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-30 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-90 motion-reduce:transform-none focus-visible:opacity-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:transform-none focus-visible:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
       >
         ?
       </button>
@@ -22,32 +22,22 @@ export function AboutDialog() {
         onClick={(event) => {
           if (event.target === dialogRef.current) dialogRef.current.close()
         }}
-        className="m-auto w-[min(90vw,380px)] rounded-lg border border-[color-mix(in_srgb,var(--foreground)_15%,transparent)] bg-[var(--background)] text-[var(--foreground)] shadow-lg backdrop:bg-black/40"
+        className="m-auto w-[min(90vw,384px)] border border-[var(--hairline)] bg-[var(--background)] text-[var(--foreground)]"
       >
-        <div className="flex flex-col gap-4 p-6 text-sm leading-relaxed">
-          <p className="opacity-70">
+        <div className="flex flex-col gap-8 p-6 text-base leading-normal">
+          <p>
             A guitar tuner that runs in your browser. It listens through the
             microphone, detects pitch, and draws it as a waveform: lower notes
             make longer waves, flat drifts left, sharp drifts right, and an
             in-tune note settles and locks.
           </p>
-          <p className="opacity-70">
-            Audio is processed on your device and never leaves it.
-          </p>
-          <a
-            href="https://github.com/petermonky"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="self-start underline underline-offset-4 opacity-70 transition-opacity duration-200 hover:opacity-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
-          >
-            @petermonky
-          </a>
+          <p>Audio is processed on your device and never leaves it.</p>
         </div>
         <button
           type="button"
           aria-label="Close"
           onClick={() => dialogRef.current?.close()}
-          className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-40 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-90 motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+          className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
         >
           ✕
         </button>
