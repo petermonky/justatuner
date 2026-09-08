@@ -40,9 +40,12 @@ export function AboutDialog() {
           >
             <div className="flex flex-col gap-8 p-6 text-base leading-relaxed">
               <p>
-                A guitar tuner that runs locally in your browser. Lower notes
-                make longer waves, and vice versa. Audio is processed on your
-                device and never leaves it.
+                <span className="font-black tracking-tight text-[var(--strong)]">
+                  justatuner
+                </span>{" "}
+                is a guitar tuner that runs locally in your browser. Lower
+                notes make longer waves, and vice versa. Audio is processed on
+                your device and never leaves it.
               </p>
               <p>
                 Suggestions or bugs?{" "}
