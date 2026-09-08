@@ -10,7 +10,10 @@ interface Props {
 
 export function TuningSelector({ selectedId, onSelect, disabled }: Props) {
   return (
-    <nav aria-label="Tunings" className={disabled ? "opacity-40" : ""}>
+    <nav
+      aria-label="Tunings"
+      className={`transition-opacity duration-300 ${disabled ? "opacity-40" : ""}`}
+    >
       <h2 className="mb-3 text-[11px] uppercase tracking-[0.2em] opacity-40 max-lg:hidden">
         Tuning
       </h2>
@@ -23,7 +26,7 @@ export function TuningSelector({ selectedId, onSelect, disabled }: Props) {
                 type="button"
                 onClick={() => onSelect(tuning.id)}
                 aria-pressed={selected}
-                className={`rounded px-2 py-1 text-sm whitespace-nowrap transition-opacity duration-200 hover:opacity-90 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
+                className={`rounded px-2 py-1 text-sm whitespace-nowrap transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
                   selected ? "opacity-100" : "opacity-40"
                 }`}
               >

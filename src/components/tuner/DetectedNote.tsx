@@ -9,19 +9,21 @@ interface Props {
 
 export function DetectedNote({ note, cents, frequency, inTune }: Props) {
   return (
-    <div className="flex flex-col items-center gap-1 text-center">
+    <div className="animate-fade-rise flex flex-col items-center gap-1 text-center">
       <div
         className={`text-6xl font-extralight leading-none tracking-tight transition-colors duration-300 sm:text-7xl ${
           inTune ? "text-[var(--accent)]" : "text-[var(--foreground)]"
         }`}
       >
         {note ? (
-          <>
+          // Keyed by note so a change of note (not of cents) re-runs the
+          // entrance animation.
+          <span key={`${note.note}${note.octave}`} className="animate-fade-rise inline-block">
             {note.note}
             <span className="text-2xl align-baseline opacity-40 sm:text-3xl">
               {note.octave}
             </span>
-          </>
+          </span>
         ) : (
           <span className="opacity-15">·</span>
         )}

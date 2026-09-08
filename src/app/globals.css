@@ -25,3 +25,46 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
+
+@theme {
+  --animate-fade-rise: fade-rise 300ms cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+/* Gentle entry for the about dialog; @starting-style animates from the
+   pre-open state in browsers that support it. */
+dialog[open] {
+  transition:
+    opacity 180ms cubic-bezier(0.2, 0, 0, 1),
+    transform 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+dialog[open]::backdrop {
+  transition: background-color 180ms ease;
+}
+@starting-style {
+  dialog[open]::backdrop {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-rise {
+    animation: none;
+  }
+  dialog[open],
+  dialog[open]::backdrop {
+    transition: none;
+  }
+}

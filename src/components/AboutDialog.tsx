@@ -11,7 +11,7 @@ export function AboutDialog() {
         type="button"
         aria-label="About this app"
         onClick={() => dialogRef.current?.showModal()}
-        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-30 transition-opacity duration-200 hover:opacity-100 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-30 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-90 motion-reduce:transform-none focus-visible:opacity-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
       >
         ?
       </button>
@@ -47,7 +47,7 @@ export function AboutDialog() {
           type="button"
           aria-label="Close"
           onClick={() => dialogRef.current?.close()}
-          className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-40 transition-opacity duration-200 hover:opacity-100 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
+          className="absolute top-2 right-2 flex h-8 w-8 items-center justify-center rounded-full text-sm opacity-40 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-90 motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)]"
         >
           ✕
         </button>

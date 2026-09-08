@@ -20,7 +20,10 @@ export function StringSelector({
   disabled,
 }: Props) {
   return (
-    <nav aria-label="Strings" className={disabled ? "opacity-40" : ""}>
+    <nav
+      aria-label="Strings"
+      className={`transition-opacity duration-300 ${disabled ? "opacity-40" : ""}`}
+    >
       <h2 className="mb-3 text-right text-[11px] uppercase tracking-[0.2em] opacity-40 max-lg:hidden">
         Strings
       </h2>
@@ -35,7 +38,7 @@ export function StringSelector({
                 onClick={() => onSelect(isManual ? null : string)}
                 aria-pressed={isManual}
                 aria-label={`${string.note}${string.octave} string${isManual ? ", selected" : ""}`}
-                className={`flex items-center gap-2 rounded px-2 py-1 text-sm tabular-nums transition-opacity duration-200 hover:opacity-90 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
+                className={`flex items-center gap-2 rounded px-2 py-1 text-sm tabular-nums transition-[opacity,transform] duration-200 hover:opacity-90 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[var(--foreground)] lg:-mx-2 ${
                   isActive || isManual ? "opacity-100" : "opacity-40"
                 }`}
               >
@@ -50,8 +53,8 @@ export function StringSelector({
                 </span>
                 <span
                   aria-hidden="true"
-                  className={`h-1 w-1 rounded-full bg-[var(--accent)] transition-opacity duration-200 ${
-                    isManual ? "opacity-100" : "opacity-0"
+                  className={`h-1 w-1 rounded-full bg-[var(--accent)] transition-[opacity,transform] duration-200 motion-reduce:transform-none ${
+                    isManual ? "scale-100 opacity-100" : "scale-50 opacity-0"
                   }`}
                 />
               </button>

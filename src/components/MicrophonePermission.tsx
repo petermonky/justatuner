@@ -15,16 +15,16 @@ const ERROR_MESSAGES: Record<MicErrorKind, string> = {
 
 export function MicrophonePermission({ micError, onStart }: Props) {
   return (
-    <div className="flex flex-col items-center gap-4 text-center">
+    <div className="animate-fade-rise flex flex-col items-center gap-4 text-center">
       <button
         type="button"
         onClick={onStart}
-        className="rounded px-3 py-1.5 text-sm opacity-60 transition-opacity duration-200 hover:opacity-100 focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[var(--foreground)]"
+        className="rounded px-3 py-1.5 text-sm opacity-60 transition-[opacity,transform] duration-200 hover:opacity-100 active:scale-[0.97] motion-reduce:transform-none focus-visible:outline focus-visible:outline-offset-4 focus-visible:outline-[var(--foreground)]"
       >
         Enable microphone
       </button>
       {micError && (
-        <p role="alert" className="max-w-60 text-xs leading-relaxed opacity-50">
+        <p role="alert" className="animate-fade-rise max-w-60 text-xs leading-relaxed opacity-50">
           {ERROR_MESSAGES[micError]}
         </p>
       )}
