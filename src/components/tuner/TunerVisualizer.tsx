@@ -139,7 +139,7 @@ export function TunerVisualizer({ live, running }: Props) {
       ctx.arc(cx, cy, radius, 0, Math.PI * 2)
       ctx.strokeStyle = wave.lock > 0.5 ? accent : foreground
       ctx.globalAlpha = 0.14 + 0.4 * wave.lock
-      ctx.lineWidth = 1
+      ctx.lineWidth = 1.5
       ctx.stroke()
 
       // Waveform, clipped to the circle.
@@ -175,9 +175,9 @@ export function TunerVisualizer({ live, running }: Props) {
       }
 
       if (ref.opacity > 0.01) {
-        strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 1)
+        strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 1.5)
       }
-      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 1.5)
+      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 2)
       ctx.restore()
       ctx.globalAlpha = 1
     }
