@@ -58,6 +58,13 @@ a {
   --animate-fade-in-left: fade-in-left 350ms ease 500ms both;
   --animate-fade-in-right: fade-in-right 350ms ease 500ms both;
   --animate-ring-in: ring-in 400ms ease backwards;
+  --animate-fade-in: fade-in 150ms ease both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 /* Rings stagger in from the center via per-ring animation-delay; the implicit
@@ -89,53 +96,13 @@ a {
   }
 }
 
-/* About dialog enter/exit. Discrete display/overlay transitions keep the
-   closing dialog visible while it fades out; @starting-style animates the
-   entry. Browsers without support simply open/close instantly. */
-dialog {
-  opacity: 0;
-  transform: translateY(6px) scale(0.98);
-  transition:
-    opacity 150ms ease,
-    transform 150ms ease,
-    display 150ms allow-discrete,
-    overlay 150ms allow-discrete;
-}
-dialog[open] {
-  opacity: 1;
-  transform: none;
-}
-@starting-style {
-  dialog[open] {
-    opacity: 0;
-    transform: translateY(6px) scale(0.98);
-  }
-}
-dialog::backdrop {
-  background-color: transparent;
-  transition:
-    background-color 150ms ease,
-    display 150ms allow-discrete,
-    overlay 150ms allow-discrete;
-}
-dialog[open]::backdrop {
-  background-color: rgb(0 0 0 / 0.4);
-}
-@starting-style {
-  dialog[open]::backdrop {
-    background-color: transparent;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-rise,
   .animate-fade-in-left,
   .animate-fade-in-right,
-  .animate-ring-in {
+  .animate-ring-in,
+  .animate-fade-in {
     animation: none;
-  }
-  dialog,
-  dialog::backdrop {
-    transition: none;
   }
 }

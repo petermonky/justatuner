@@ -19,7 +19,7 @@ export default function Home() {
       if (event.metaKey || event.ctrlKey || event.altKey) return
       const target = event.target as HTMLElement
       if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return
-      if (target.closest("dialog")) return
+      if (target.closest('[role="dialog"]')) return
 
       if (event.key >= "1" && event.key <= "6") {
         setManualTarget(tuning.strings[Number(event.key) - 1] ?? null)
