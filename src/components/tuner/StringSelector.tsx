@@ -6,7 +6,6 @@ interface Props {
   tuning: TuningPreset
   activeTarget: TargetNote | null
   manualTarget: TargetNote | null
-  cents: number | null
   onSelect: (target: TargetNote | null) => void
   disabled: boolean
 }
@@ -15,7 +14,6 @@ export function StringSelector({
   tuning,
   activeTarget,
   manualTarget,
-  cents,
   onSelect,
   disabled,
 }: Props) {
@@ -41,11 +39,6 @@ export function StringSelector({
                     : "text-[var(--foreground)]"
                 }`}
               >
-                <span className="w-8 text-left text-xs text-[var(--faint)] max-lg:hidden">
-                  {isActive && cents !== null
-                    ? `${cents > 0 ? "+" : "−"}${String(Math.abs(Math.round(cents))).padStart(2, "0")}`
-                    : ""}
-                </span>
                 <span>
                   {string.note}
                   <span className="text-[var(--faint)]">{string.octave}</span>

@@ -57,7 +57,6 @@ export default function Home() {
           tuning={tuning}
           activeTarget={tuner.target}
           manualTarget={tuner.manualTarget}
-          cents={tuner.cents}
           onSelect={setManualTarget}
           disabled={!running}
         />
