@@ -6,6 +6,7 @@ import { TUNINGS } from "@/data/tunings"
 import { Tuner } from "@/components/tuner/Tuner"
 import { TuningSelector } from "@/components/tuner/TuningSelector"
 import { StringSelector } from "@/components/tuner/StringSelector"
+import { AboutDialog } from "@/components/AboutDialog"
 
 export default function Home() {
   const tuner = useTuner()
@@ -17,6 +18,7 @@ export default function Home() {
       if (event.metaKey || event.ctrlKey || event.altKey) return
       const target = event.target as HTMLElement
       if (["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)) return
+      if (target.closest("dialog")) return
 
       if (event.key >= "1" && event.key <= "6") {
         setManualTarget(tuning.strings[Number(event.key) - 1] ?? null)
@@ -56,6 +58,8 @@ export default function Home() {
           disabled={!running}
         />
       </div>
+
+      <AboutDialog />
     </main>
   )
 }
