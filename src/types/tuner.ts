@@ -23,4 +23,5 @@ export interface LiveReading {
   cents: number | null
   amplitude: number
   confidence: number
+  targetFrequency: number | null
 }

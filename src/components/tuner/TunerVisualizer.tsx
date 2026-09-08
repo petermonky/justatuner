@@ -77,6 +77,10 @@ export function TunerVisualizer({ live, running }: Props) {
     // Mutable render state, interpolated toward targets each frame for
     // organic motion even though pitch only updates ~30 times per second.
     const wave = { phase: 0, cycles: 2, amplitude: 0, drift: 0, opacity: 0.4, lock: 0 }
+    // Faint wave at the target note's wavelength. It shares the detected
+    // wave's phase and amplitude, so the two travel together and coincide
+    // exactly when the pitch matches.
+    const ref = { cycles: 2, amplitude: 0, opacity: 0 }
     let lastTime = performance.now()
     let raf = 0
 
@@ -87,6 +91,7 @@ export function TunerVisualizer({ live, running }: Props) {
 
       const reading = live.current
       const hasPitch = runningRef.current && reading.frequency !== null
+      const hasTarget = runningRef.current && reading.targetFrequency !== null
       const cents = reading.cents ?? 0
       const inTune = hasPitch && Math.abs(cents) <= IN_TUNE_CENTS
 
@@ -106,6 +111,16 @@ export function TunerVisualizer({ live, running }: Props) {
       wave.drift = lerp(wave.drift, targetDrift, 0.06)
       wave.opacity = lerp(wave.opacity, targetOpacity, 0.1)
       wave.lock = lerp(wave.lock, inTune ? 1 : 0, 0.08)
+
+      // The reference matches the detected wave's amplitude while a note
+      // sounds so the two can overlap exactly; alone it holds a calm size.
+      ref.cycles = lerp(
+        ref.cycles,
+        hasTarget ? frequencyToCycles(reading.targetFrequency!) : targetCycles,
+        0.08
+      )
+      ref.amplitude = lerp(ref.amplitude, hasTarget ? (hasPitch ? targetAmplitude : 0.3) : 0.04, 0.12)
+      ref.opacity = lerp(ref.opacity, hasTarget ? 0.15 : 0, 0.1)
 
       if (reducedMotion.matches) {
         wave.drift = 0
@@ -134,21 +149,35 @@ export function TunerVisualizer({ live, running }: Props) {
       ctx.clip()
 
       const maxAmplitude = radius * 0.5
-      const amplitude = wave.amplitude * maxAmplitude
-      const k = (wave.cycles * 2 * Math.PI) / (radius * 2)
+      const color = wave.lock > 0.5 ? accent : foreground
 
-      ctx.beginPath()
-      for (let x = cx - radius; x <= cx + radius; x += 1.5) {
-        const angle = (x - cx + radius) * k + wave.phase
-        let y = Math.sin(angle) * amplitude
-        y += Math.sin(angle * 2 + wave.phase * 0.7) * amplitude * 0.08
-        if (x === cx - radius) ctx.moveTo(x, cy + y)
-        else ctx.lineTo(x, cy + y)
+      const strokeWave = (
+        cycles: number,
+        amplitude: number,
+        phase: number,
+        alpha: number,
+        lineWidth: number
+      ) => {
+        const amp = amplitude * maxAmplitude
+        const k = (cycles * 2 * Math.PI) / (radius * 2)
+        ctx.beginPath()
+        for (let x = cx - radius; x <= cx + radius; x += 1.5) {
+          const angle = (x - cx + radius) * k + phase
+          let y = Math.sin(angle) * amp
+          y += Math.sin(angle * 2 + phase * 2) * amp * 0.08
+          if (x === cx - radius) ctx.moveTo(x, cy + y)
+          else ctx.lineTo(x, cy + y)
+        }
+        ctx.globalAlpha = alpha
+        ctx.strokeStyle = color
+        ctx.lineWidth = lineWidth
+        ctx.stroke()
       }
-      ctx.globalAlpha = wave.opacity
-      ctx.strokeStyle = wave.lock > 0.5 ? accent : foreground
-      ctx.lineWidth = 1.5
-      ctx.stroke()
+
+      if (ref.opacity > 0.01) {
+        strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 1)
+      }
+      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 1.5)
       ctx.restore()
       ctx.globalAlpha = 1
     }

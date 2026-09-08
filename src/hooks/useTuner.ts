@@ -69,6 +69,7 @@ export function useTuner(): Tuner {
     cents: null,
     amplitude: 0,
     confidence: 0,
+    targetFrequency: null,
   })
 
   const engine = useRef<AudioEngine | null>(null)
@@ -144,9 +145,12 @@ export function useTuner(): Tuner {
     if (reading) {
       live.current.frequency = reading.frequency
       live.current.cents = reading.cents
+      live.current.targetFrequency = reading.target.frequency
     } else if (!held) {
       live.current.frequency = null
       live.current.cents = null
+      // A manually locked string keeps its reference wave visible while waiting.
+      live.current.targetFrequency = manual?.frequency ?? null
     }
 
     // Throttled, low-frequency React updates for the text UI.
@@ -188,7 +192,7 @@ export function useTuner(): Tuner {
     engine.current?.stop()
     engine.current = null
     smoother.current.reset()
-    live.current = { frequency: null, cents: null, amplitude: 0, confidence: 0 }
+    live.current = { frequency: null, cents: null, amplitude: 0, confidence: 0, targetFrequency: null }
     setState((prev) => ({ ...prev, ...IDLE_STATE, status: "idle" }))
   }, [])
 
