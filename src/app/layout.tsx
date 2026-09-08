@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,8 +9,70 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Just a Tuner",
-  description: "A minimal, waveform-driven guitar tuner. Audio stays on your device.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "guitar tuner",
+    "online guitar tuner",
+    "free guitar tuner",
+    "browser guitar tuner",
+    "chromatic tuner",
+    "drop D tuning",
+    "DADGAD tuning",
+    "open G tuning",
+  ],
+  authors: [{ name: "petermonky", url: "https://github.com/petermonky" }],
+  creator: "petermonky",
+  category: "music",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0e0e12" },
+    { color: "#ffffff" },
+  ],
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: SITE_NAME,
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  applicationCategory: "MusicApplication",
+  operatingSystem: "Any",
+  browserRequirements: "Requires a microphone and a modern browser.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  author: {
+    "@type": "Person",
+    name: "petermonky",
+    url: "https://github.com/petermonky",
+  },
 };
 
 // Runs before paint so a stored/system dark preference never flashes light.
@@ -20,6 +83,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="min-h-full">
         <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         {children}
       </body>
     </html>
