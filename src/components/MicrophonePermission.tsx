@@ -16,7 +16,6 @@ const ERROR_MESSAGES: Record<MicErrorKind, string> = {
 export function MicrophonePermission({ micError, onStart }: Props) {
   return (
     <div className="flex flex-col items-center gap-4 text-center">
-      <h1 className="text-lg font-light tracking-wide">Guitar Tuner</h1>
       <button
         type="button"
         onClick={onStart}

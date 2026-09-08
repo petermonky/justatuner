@@ -1,4 +1,4 @@
-# Guitar Tuner
+# Just a Tuner
 
 A minimal, browser-based guitar tuner. The central element is a circle containing
 a pitch-derived waveform: lower notes produce longer waves, volume drives

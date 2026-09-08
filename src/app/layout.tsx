@@ -8,7 +8,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Guitar Tuner",
+  title: "Just a Tuner",
   description: "A minimal, waveform-driven guitar tuner. Audio stays on your device.",
 };
 
