@@ -7,6 +7,7 @@ import { Tuner } from "@/components/tuner/Tuner"
 import { TuningSelector } from "@/components/tuner/TuningSelector"
 import { StringSelector } from "@/components/tuner/StringSelector"
 import { AboutDialog } from "@/components/AboutDialog"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 export default function Home() {
   const tuner = useTuner()
@@ -39,16 +40,18 @@ export default function Home() {
   }, [tuning, running, start, setTuning, setManualTarget])
 
   return (
-    <main className="grid min-h-dvh grid-rows-[auto_1fr_auto] gap-6 p-5 lg:h-dvh lg:grid-cols-[1fr_minmax(0,2.4fr)_1fr] lg:grid-rows-1 lg:items-center lg:gap-10 lg:overflow-hidden lg:p-10">
-      <div className="lg:max-h-full lg:overflow-y-auto">
+    // Mobile: presets on top (horizontal scroll), circle centered, strings at
+    // the bottom, all locked to the viewport. Desktop: three columns.
+    <main className="grid h-dvh grid-rows-[auto_1fr_auto] gap-4 overflow-hidden p-4 lg:grid-cols-[1fr_minmax(0,2.4fr)_1fr] lg:grid-rows-1 lg:items-center lg:gap-10 lg:p-10">
+      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-y-auto">
         <TuningSelector selectedId={tuning.id} onSelect={setTuning} disabled={!running} />
       </div>
 
-      <div className="flex items-center justify-center lg:h-full">
+      <div className="flex min-h-0 items-center justify-center lg:h-full">
         <Tuner tuner={tuner} />
       </div>
 
-      <div className="lg:max-h-full lg:overflow-y-auto">
+      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-y-auto">
         <StringSelector
           tuning={tuning}
           activeTarget={tuner.target}
@@ -59,6 +62,7 @@ export default function Home() {
         />
       </div>
 
+      <ThemeToggle />
       <AboutDialog />
     </main>
   )
