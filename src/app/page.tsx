@@ -44,7 +44,7 @@ export default function Home() {
         <TuningSelector selectedId={tuning.id} onSelect={setTuning} disabled={!running} />
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center lg:h-full">
         <Tuner tuner={tuner} />
       </div>
 
