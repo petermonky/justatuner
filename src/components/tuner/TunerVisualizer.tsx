@@ -63,8 +63,8 @@ export function TunerVisualizer({ live, running }: Props) {
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
 
-    let foreground = "#171717"
-    let accent = "#3a9d7a"
+    let foreground = "#62627a"
+    let accent = "#000000"
     const readColors = () => {
       const style = getComputedStyle(canvas)
       foreground = style.getPropertyValue("--foreground").trim() || foreground
@@ -73,6 +73,12 @@ export function TunerVisualizer({ live, running }: Props) {
     readColors()
     const scheme = window.matchMedia("(prefers-color-scheme: dark)")
     scheme.addEventListener("change", readColors)
+    // The theme toggle swaps CSS variables via data-theme on <html>.
+    const themeObserver = new MutationObserver(readColors)
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    })
 
     // Mutable render state, interpolated toward targets each frame for
     // organic motion even though pitch only updates ~30 times per second.
@@ -139,7 +145,7 @@ export function TunerVisualizer({ live, running }: Props) {
       ctx.arc(cx, cy, radius, 0, Math.PI * 2)
       ctx.strokeStyle = wave.lock > 0.5 ? accent : foreground
       ctx.globalAlpha = 0.14 + 0.4 * wave.lock
-      ctx.lineWidth = 1.5
+      ctx.lineWidth = 3
       ctx.stroke()
 
       // Waveform, clipped to the circle.
@@ -175,9 +181,9 @@ export function TunerVisualizer({ live, running }: Props) {
       }
 
       if (ref.opacity > 0.01) {
-        strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 1.5)
+        strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 3)
       }
-      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 2)
+      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 4)
       ctx.restore()
       ctx.globalAlpha = 1
     }
@@ -186,6 +192,7 @@ export function TunerVisualizer({ live, running }: Props) {
     return () => {
       cancelAnimationFrame(raf)
       observer.disconnect()
+      themeObserver.disconnect()
       scheme.removeEventListener("change", readColors)
     }
   }, [live])
