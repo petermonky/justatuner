@@ -101,13 +101,15 @@ export function TunerVisualizer({ live, running }: Props) {
       const cents = reading.cents ?? 0
       const inTune = hasPitch && Math.abs(cents) <= IN_TUNE_CENTS
 
-      // Targets derived from the current reading; idle state breathes gently.
+      // Targets derived from the current reading; while listening without a
+      // pitch the wave breathes gently, and before the mic starts there is
+      // no wave at all (the circle doubles as the enable button).
       const targetCycles = hasPitch ? frequencyToCycles(reading.frequency!) : 2
       const targetAmplitude = runningRef.current
         ? hasPitch
           ? Math.min(1, Math.pow(reading.amplitude * 8, 0.7))
           : 0.05 + 0.025 * Math.sin(time / 1600)
-        : 0.04
+        : 0
       const targetOpacity = hasPitch ? 0.45 + 0.55 * reading.confidence : 0.35
       // Flat drifts left, sharp drifts right; settles inside the lock window.
       const targetDrift = !hasPitch || inTune ? 0 : Math.max(-1, Math.min(1, cents / 50))
@@ -183,7 +185,9 @@ export function TunerVisualizer({ live, running }: Props) {
       if (ref.opacity > 0.01) {
         strokeWave(ref.cycles, ref.amplitude, wave.phase, ref.opacity, 3)
       }
-      strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 4)
+      if (runningRef.current || wave.amplitude > 0.004) {
+        strokeWave(wave.cycles, wave.amplitude, wave.phase, wave.opacity, 4)
+      }
       ctx.restore()
       ctx.globalAlpha = 1
     }
@@ -200,7 +204,7 @@ export function TunerVisualizer({ live, running }: Props) {
   return (
     <canvas
       ref={canvasRef}
-      className="animate-ring-in h-full w-full [animation-delay:500ms]"
+      className="animate-ring-in pointer-events-none h-full w-full [animation-delay:500ms]"
       aria-hidden="true"
     />
   )
