@@ -45,8 +45,6 @@
 
 body {
   background-color: var(--background);
-  background-image: radial-gradient(circle at 50% 50%, var(--glow), transparent 70%);
-  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   transition:
@@ -59,12 +57,27 @@ a {
   cursor: pointer;
 }
 
+/* Center glow with an eased falloff: intermediate stops approximate a smooth
+   curve so the gradient's end has no perceptible circular edge. */
+.center-glow {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--glow) 0%,
+    color-mix(in srgb, var(--glow) 75%, transparent) 25%,
+    color-mix(in srgb, var(--glow) 45%, transparent) 45%,
+    color-mix(in srgb, var(--glow) 20%, transparent) 65%,
+    color-mix(in srgb, var(--glow) 6%, transparent) 82%,
+    transparent 100%
+  );
+}
+
 @theme {
   --animate-fade-rise: fade-rise 250ms ease both;
   --animate-fade-out: fade-out 250ms ease forwards;
   --animate-fade-in-left: fade-in-left 350ms ease 500ms both;
   --animate-fade-in-right: fade-in-right 350ms ease 500ms both;
   --animate-ring-in: ring-in 400ms ease backwards;
+  --animate-glow-in: glow-in 400ms ease 500ms both;
   --animate-fade-in: fade-in 150ms ease both;
 }
 
@@ -77,6 +90,13 @@ a {
 /* Rings stagger in from the center via per-ring animation-delay; the implicit
    end state is each ring's own inline opacity. */
 @keyframes ring-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Pure element-opacity fade for the background glow. */
+@keyframes glow-in {
   from {
     opacity: 0;
   }
@@ -118,7 +138,8 @@ a {
   .animate-fade-in-right,
   .animate-ring-in,
   .animate-fade-in,
-  .animate-fade-out {
+  .animate-fade-out,
+  .animate-glow-in {
     animation: none;
   }
 }
