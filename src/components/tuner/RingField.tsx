@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import type { LiveReading } from "@/types/tuner"
 import { IN_TUNE_CENTS } from "@/hooks/useTuner"
+import { LOBES, undulation } from "./undulation"
 
 interface Props {
   live: React.RefObject<LiveReading>
@@ -11,16 +12,13 @@ interface Props {
 }
 
 const RING_COUNT = 12
-const SPEED = 9 // rings per second
-const SIGMA = 1.3 // wavefront width, in rings
-const WAVE_AMPLITUDE = 7 // px of stroke undulation at a full-strength crest
-const LOBES = 6 // undulation lobes around each ring
+const UNDULATION = 5 // px of stroke undulation at full level
 
 /**
  * Canvas ring field: the equidistant rings around the tuner circle, with the
- * app's exponential fade and staggered entrance. A note attack spawns a
- * wavefront that travels outward, and rings under it undulate — the stroke
- * itself ripples rather than the ring merely scaling.
+ * app's exponential fade and staggered entrance. The strokes undulate with
+ * the mic level, rising gradually on a note's attack and easing away as it
+ * decays; the shimmer speed follows the detected pitch.
  */
 export function RingField({ live, anchorRef }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -69,9 +67,6 @@ export function RingField({ live, anchorRef }: Props) {
     })
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const fronts: { p: number; s: number }[] = []
-    let slowEnv = 0
-    let lastSpawn = 0
     let level = 0
     let lock = 0
     let waveSpeed = 5.5 // rad/s, modulated by the detected frequency
@@ -94,42 +89,25 @@ export function RingField({ live, anchorRef }: Props) {
 
       if (!reducedMotion.matches) {
         const raw = Math.min(1, live.current.amplitude * 6)
-        // Continuous undulation follows the smoothed level; its speed tracks
-        // the detected frequency so higher notes shimmer faster.
-        level += (raw - level) * 0.08
+        // Undulation follows the smoothed level — a gradual rise into the
+        // attack, a slightly quicker ease-away — and its shimmer speed
+        // tracks the detected frequency so higher notes wobble faster.
+        level += (raw - level) * (raw > level ? 0.04 : 0.06)
         const frequency = live.current.frequency
         if (frequency) waveSpeed += (frequency / 40 - waveSpeed) * 0.05
         wavePhase += dt * waveSpeed
         const cents = live.current.cents
         const inTune = frequency !== null && cents !== null && Math.abs(cents) <= IN_TUNE_CENTS
         lock += ((inTune ? 1 : 0) - lock) * 0.08
-        // An attack is a fast rise above the slow-moving envelope.
-        if (raw > 0.12 && raw > slowEnv * 1.25 && time - lastSpawn > 280) {
-          fronts.push({ p: -1, s: raw })
-          lastSpawn = time
-        }
-        slowEnv += (raw - slowEnv) * 0.04
-        for (let f = fronts.length - 1; f >= 0; f--) {
-          fronts[f].p += dt * SPEED
-          if (fronts[f].p > RING_COUNT + 3) fronts.splice(f, 1)
-        }
       }
 
       ctx.clearRect(0, 0, width, height)
 
-      // Undulating stroke shared by the circle (index -1) and the rings:
-      // attack-ripple displacement plus the continuous level-driven wobble.
+      // Undulating stroke shared by the circle (index -1) and the rings,
+      // softening slightly with distance from the center.
+      const ringAmplitude = (index: number) => level * UNDULATION * Math.pow(0.92, index)
       const strokeRing = (index: number, radius: number) => {
-        let displacement = 0
-        for (const front of fronts) {
-          const d = index - front.p
-          displacement +=
-            front.s *
-            Math.exp(-(d * d) / (2 * SIGMA * SIGMA)) *
-            Math.exp(-Math.max(0, front.p) * 0.06)
-        }
-        const amplitude =
-          Math.min(1.5, displacement) * WAVE_AMPLITUDE + level * 4 * Math.pow(0.92, index)
+        const amplitude = ringAmplitude(index)
         ctx.beginPath()
         if (amplitude < 0.05) {
           ctx.arc(cx, cy, radius, 0, Math.PI * 2)
@@ -147,6 +125,11 @@ export function RingField({ live, anchorRef }: Props) {
         }
         ctx.stroke()
       }
+
+      // Publish the circle's undulation so the visualizer's wave clip can
+      // follow the outline exactly.
+      undulation.phase = wavePhase
+      undulation.amplitude = ringAmplitude(-1)
 
       // The tuner circle itself, stronger and accented when locked in tune.
       const circleEntrance = reducedMotion.matches

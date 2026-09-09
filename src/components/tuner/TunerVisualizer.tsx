@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react"
 import type { LiveReading } from "@/types/tuner"
 import { IN_TUNE_CENTS } from "@/hooks/useTuner"
+import { LOBES, undulation } from "./undulation"
 
 interface Props {
   live: React.RefObject<LiveReading>
@@ -145,10 +146,24 @@ export function TunerVisualizer({ live, running }: Props) {
       // The circle outline itself is drawn by RingField, undulating with the
       // same model as the backdrop rings.
 
-      // Waveform, clipped to the circle.
+      // Waveform, clipped to the circle — following RingField's undulating
+      // outline (same formula, index -1) so the waves stay contained.
       ctx.save()
       ctx.beginPath()
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+      if (undulation.amplitude < 0.05) {
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+      } else {
+        const segments = 140
+        for (let k = 0; k <= segments; k++) {
+          const theta = (k / segments) * Math.PI * 2
+          const r = radius + undulation.amplitude * Math.sin(LOBES * theta + undulation.phase - 0.7)
+          const px = cx + r * Math.cos(theta)
+          const py = cy + r * Math.sin(theta)
+          if (k === 0) ctx.moveTo(px, py)
+          else ctx.lineTo(px, py)
+        }
+        ctx.closePath()
+      }
       ctx.clip()
 
       const maxAmplitude = radius * 0.5
@@ -164,13 +179,15 @@ export function TunerVisualizer({ live, running }: Props) {
         const amp = amplitude * maxAmplitude
         const k = (cycles * 2 * Math.PI) / (radius * 2)
         ctx.beginPath()
-        for (let x = cx - radius; x <= cx + radius; x += 1.5) {
+        // Overdrawn slightly past the circle so the wave's end caps stay
+        // hidden when the undulating clip bulges outward.
+        for (let x = cx - radius - 12; x <= cx + radius + 12; x += 1.5) {
           // Pivot at the circle's center so wavelength changes stretch the
           // wave symmetrically (and both waves always agree at the center).
           const angle = (x - cx) * k + phase
           let y = Math.sin(angle) * amp
           y += Math.sin(angle * 2 + phase * 2) * amp * 0.08
-          if (x === cx - radius) ctx.moveTo(x, cy + y)
+          if (x === cx - radius - 12) ctx.moveTo(x, cy + y)
           else ctx.lineTo(x, cy + y)
         }
         ctx.globalAlpha = alpha
