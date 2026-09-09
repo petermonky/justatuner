@@ -10,18 +10,21 @@ export const contentType = "image/png"
 // same exponential fade. All geometry is computed.
 const CX = 600
 const CY = 315
-const RADIUS = 200
+const RADIUS = 165
 const RING_STEP = 90
 const RING_COUNT = 8
 
-// Waves use half-integer cycle counts so sin(cycles · 2π) = 0 at both ends,
-// pinning the endpoints to the circle's horizontal diameter.
+// Waves are phase-shifted by π/2 (cosines), entering at a crest and exiting
+// at a trough; points outside the circle are dropped, clipping the wave to
+// the ring the way the app's canvas clip does.
 function wavePoints(cycles: number, amplitude: number): string {
   const pts: string[] = []
-  for (let x = CX - RADIUS; x <= CX + RADIUS; x += 2) {
+  for (let x = CX - RADIUS; x <= CX + RADIUS; x += 0.5) {
     const t = (x - (CX - RADIUS)) / (2 * RADIUS)
-    const y = CY - amplitude * Math.sin(cycles * 2 * Math.PI * t)
-    pts.push(`${x},${y.toFixed(2)}`)
+    const y = CY - amplitude * Math.sin(cycles * 2 * Math.PI * t + Math.PI / 2)
+    if ((x - CX) ** 2 + (y - CY) ** 2 <= RADIUS ** 2) {
+      pts.push(`${x},${y.toFixed(2)}`)
+    }
   }
   return pts.join(" ")
 }
@@ -32,7 +35,15 @@ const referenceWave = wavePoints(3.5, RADIUS * 0.35)
 export default function Image() {
   return new ImageResponse(
     (
-      <div style={{ display: "flex", width: "100%", height: "100%", background: "#ffffff" }}>
+      <div
+        style={{
+          display: "flex",
+          position: "relative",
+          width: "100%",
+          height: "100%",
+          background: "#ffffff",
+        }}
+      >
         <svg width="1200" height="630" viewBox="0 0 1200 630">
           {Array.from({ length: RING_COUNT }, (_, i) => (
             <circle
