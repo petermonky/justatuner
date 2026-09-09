@@ -12,13 +12,19 @@ export function TuningSelector({ selectedId, onSelect, disabled }: Props) {
   return (
     <nav
       aria-label="Tunings"
-      className={`animate-fade-in-left transition-opacity duration-200 ease-[ease] ${disabled ? "opacity-40" : ""}`}
+      className={`transition-opacity duration-200 ease-[ease] ${disabled ? "opacity-40" : ""}`}
     >
       <ul className="flex gap-1 overflow-x-auto max-lg:-mx-4 max-lg:px-4 max-lg:[mask-image:linear-gradient(to_right,transparent,black_24px,black_calc(100%-24px),transparent)] max-lg:[scrollbar-width:none] max-lg:[&::-webkit-scrollbar]:hidden lg:flex-col lg:overflow-visible">
-        {TUNINGS.map((tuning) => {
+        {TUNINGS.map((tuning, index) => {
           const selected = tuning.id === selectedId
           return (
-            <li key={tuning.id} className="shrink-0">
+            <li
+              key={tuning.id}
+              className="animate-fade-in-left shrink-0"
+              // Sequential entrance: top-to-bottom on desktop, left-to-right
+              // on mobile (same DOM order).
+              style={{ animationDelay: `${500 + index * 40}ms` }}
+            >
               <button
                 type="button"
                 onClick={() => onSelect(tuning.id)}
