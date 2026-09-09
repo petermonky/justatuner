@@ -142,13 +142,8 @@ export function TunerVisualizer({ live, running }: Props) {
       const cy = height / 2
       const radius = Math.min(width, height) / 2 - 1
 
-      // Circle outline, slightly stronger when locked in tune.
-      ctx.beginPath()
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2)
-      ctx.strokeStyle = wave.lock > 0.5 ? accent : foreground
-      ctx.globalAlpha = 0.14 + 0.4 * wave.lock
-      ctx.lineWidth = 3
-      ctx.stroke()
+      // The circle outline itself is drawn by RingField, undulating with the
+      // same model as the backdrop rings.
 
       // Waveform, clipped to the circle.
       ctx.save()
