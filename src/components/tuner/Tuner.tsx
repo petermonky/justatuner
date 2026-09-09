@@ -24,10 +24,12 @@ export function Tuner({ tuner }: Props) {
       : ""
 
   return (
-    // On desktop the circle sits in the center row of a 1fr/auto/1fr grid so it
-    // is exactly vertically centered; the readout hangs in the row below it.
-    <div className="flex flex-col items-center gap-6 lg:grid lg:h-full lg:grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:justify-items-center lg:gap-0">
-      <div className="relative aspect-square w-[min(70vw,42dvh,340px)] lg:row-start-2 lg:w-[clamp(280px,34vw,520px)]">
+    // The circle sits in the center row of a 1fr/auto/1fr grid so it stays
+    // exactly centered regardless of the readout's height; the readout is
+    // centered within the bottom track, i.e. halfway between the circle's
+    // bottom and the bottom of the available space.
+    <div className="grid h-full grid-rows-[minmax(0,1fr)_auto_minmax(0,1fr)] justify-items-center">
+      <div className="relative row-start-2 aspect-square w-[min(70vw,42dvh,340px)] lg:w-[clamp(280px,34vw,520px)]">
         {/* Equidistant rings nested around the circle, fading as they progress
             outward (clipped by the page's overflow-hidden). Kept to 12: the
             exponential fade makes further rings invisible, and each ring is a
@@ -48,7 +50,7 @@ export function Tuner({ tuner }: Props) {
         <TunerVisualizer live={tuner.live} running={running} />
       </div>
 
-      <div className="pt-2 lg:row-start-3 lg:self-start lg:pt-8">
+      <div className="row-start-3 self-center">
         {running ? (
           <DetectedNote
             note={tuner.detectedNote}
