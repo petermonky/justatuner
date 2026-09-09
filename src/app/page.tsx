@@ -46,7 +46,7 @@ export default function Home() {
       <h1 className="sr-only">justatuner — free online tuner</h1>
       <span
         aria-hidden="true"
-        className="animate-fade-in-left fixed top-4 left-4 z-10 text-xl font-black tracking-tight text-[var(--strong)] lg:top-10 lg:left-10"
+        className="animate-fade-in-left fixed top-4 left-4 z-10 text-xl font-black tracking-tight text-[var(--strong)] select-none lg:top-10 lg:left-10"
       >
         justatuner
       </span>
