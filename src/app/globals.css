@@ -55,6 +55,7 @@ a {
 
 @theme {
   --animate-fade-rise: fade-rise 250ms ease both;
+  --animate-fade-out: fade-out 250ms ease forwards;
   --animate-fade-in-left: fade-in-left 350ms ease 500ms both;
   --animate-fade-in-right: fade-in-right 350ms ease 500ms both;
   --animate-ring-in: ring-in 400ms ease backwards;
@@ -82,6 +83,14 @@ a {
   }
 }
 
+/* Mirror of fade-rise, used when the detected note stops sounding. */
+@keyframes fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
 @keyframes fade-in-left {
   from {
     opacity: 0;
@@ -102,7 +111,8 @@ a {
   .animate-fade-in-left,
   .animate-fade-in-right,
   .animate-ring-in,
-  .animate-fade-in {
+  .animate-fade-in,
+  .animate-fade-out {
     animation: none;
   }
 }
