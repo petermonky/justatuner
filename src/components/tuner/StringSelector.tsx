@@ -39,7 +39,7 @@ export function StringSelector({
                 onClick={() => onSelect(isManual ? null : string)}
                 aria-pressed={isManual}
                 aria-label={`${string.note}${string.octave} string${isManual ? ", selected" : ""}`}
-                className={`flex items-center px-2 py-1 text-base tabular-nums transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
+                className={`flex items-center px-2 py-1 text-base tabular-nums transition-[color,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
                   isActive || isManual
                     ? "font-semibold text-[var(--strong)]"
                     : "text-[var(--foreground)]"
@@ -58,7 +58,7 @@ export function StringSelector({
         <button
           type="button"
           onClick={() => onSelect(null)}
-          className={`px-2 py-1 text-xs tracking-[0.1em] uppercase transition-[color,opacity] duration-200 ease-[ease] hover:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
+          className={`px-2 py-1 text-base text-[var(--foreground)] transition-[color,opacity,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
             manualTarget ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
         >
