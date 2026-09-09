@@ -170,7 +170,9 @@ export function TunerVisualizer({ live, running }: Props) {
         const k = (cycles * 2 * Math.PI) / (radius * 2)
         ctx.beginPath()
         for (let x = cx - radius; x <= cx + radius; x += 1.5) {
-          const angle = (x - cx + radius) * k + phase
+          // Pivot at the circle's center so wavelength changes stretch the
+          // wave symmetrically (and both waves always agree at the center).
+          const angle = (x - cx) * k + phase
           let y = Math.sin(angle) * amp
           y += Math.sin(angle * 2 + phase * 2) * amp * 0.08
           if (x === cx - radius) ctx.moveTo(x, cy + y)
