@@ -51,7 +51,7 @@ export default function Home() {
       />
       <span
         aria-hidden="true"
-        className="fixed top-4 left-4 z-10 text-xl font-black tracking-tight text-[var(--strong)] select-none lg:top-10 lg:left-10"
+        className="fixed top-4 left-4 z-10 text-xl font-extrabold tracking-tight text-[var(--strong)] select-none lg:top-10 lg:left-10"
       >
         justatuner
       </span>

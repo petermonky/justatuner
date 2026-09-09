@@ -67,7 +67,7 @@ export function AboutDialog() {
           >
             <div className="flex flex-col gap-8 p-6 text-base leading-relaxed">
               <p>
-                <span className="font-black tracking-tight text-[var(--strong)]">
+                <span className="font-extrabold tracking-tight text-[var(--strong)]">
                   justatuner
                 </span>{" "}
                 is a tuner that runs locally in your browser. Lower
