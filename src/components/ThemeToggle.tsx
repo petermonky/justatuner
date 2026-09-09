@@ -36,7 +36,7 @@ export function ThemeToggle() {
       aria-label="Toggle dark mode"
       aria-pressed={theme === "dark"}
       onClick={toggle}
-      className="fixed right-12 bottom-4 flex h-8 w-8 items-center justify-center text-[var(--faint)] transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:transform-none focus-visible:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
+      className="fixed right-12 bottom-4 flex h-8 w-8 items-center justify-center text-[var(--faint)] transition-[color,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:active:scale-100 focus-visible:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
     >
       {theme === "dark" ? (
         <svg

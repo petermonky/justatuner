@@ -44,7 +44,7 @@ export function AboutDialog() {
           setOpen(true)
           setClosing(false)
         }}
-        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:transform-none focus-visible:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
+        className="fixed right-4 bottom-4 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:active:scale-100 focus-visible:text-[var(--strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
       >
         ?
       </button>
@@ -92,7 +92,7 @@ export function AboutDialog() {
               aria-label="Close"
               autoFocus
               onClick={close}
-              className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
+              className="absolute top-1 right-1 flex h-8 w-8 items-center justify-center text-sm text-[var(--faint)] transition-[color,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-90 motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)]"
             >
               ✕
             </button>

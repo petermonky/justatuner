@@ -29,7 +29,7 @@ export function TuningSelector({ selectedId, onSelect, disabled }: Props) {
                 type="button"
                 onClick={() => onSelect(tuning.id)}
                 aria-pressed={selected}
-                className={`px-2 py-1 text-base whitespace-nowrap transition-[color,transform] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
+                className={`px-2 py-1 text-base whitespace-nowrap transition-[color,scale] duration-200 ease-[ease] hover:text-[var(--strong)] active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--strong)] ${
                   selected ? "font-semibold text-[var(--strong)]" : "text-[var(--foreground)]"
                 }`}
               >
