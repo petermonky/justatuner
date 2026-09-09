@@ -55,7 +55,7 @@ export default function Home() {
       >
         justatuner
       </span>
-      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-y-auto">
+      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-x-hidden lg:overflow-y-auto lg:px-1">
         <TuningSelector selectedId={tuning.id} onSelect={setTuning} disabled={!running} />
       </div>
 
@@ -63,7 +63,7 @@ export default function Home() {
         <Tuner tuner={tuner} />
       </div>
 
-      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-y-auto">
+      <div className="max-lg:min-w-0 lg:max-h-full lg:overflow-x-hidden lg:overflow-y-auto lg:px-1">
         <StringSelector
           tuning={tuning}
           activeTarget={tuner.target}
