@@ -14,6 +14,9 @@
 
   /* Gap between the nested backdrop rings; wider on desktop. */
   --ring-step: 96px;
+
+  /* Subtle blue center glow: slightly darker in light mode, brighter in dark. */
+  --glow: rgb(63 81 181 / 0.11);
 }
 
 @media (min-width: 64rem) {
@@ -31,6 +34,7 @@
   --foreground: #a6a6b8;
   --strong: #ffffff;
   --accent: #ffffff;
+  --glow: rgb(122 143 255 / 0.13);
 }
 
 @theme inline {
@@ -40,7 +44,9 @@
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image: radial-gradient(circle at 50% 50%, var(--glow), transparent 70%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-inter), Inter, system-ui, sans-serif;
   transition:
